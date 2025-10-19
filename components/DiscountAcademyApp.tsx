@@ -143,7 +143,7 @@ export default function DiscountAcademyApp() {
       setStudiedTopics(newStudied);
       
       let earnedPoints = selectedTopic.points;
-      const newAchievements = [];
+      const newAchievements: string[] = [];
       
       // הישגים
       if (newStudied.length === 1 && !achievements.includes('first_topic')) {
