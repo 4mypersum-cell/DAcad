@@ -1,0 +1,53 @@
+graph TD
+    %% Define the start/end points
+    A[Start: Access App]
+    Z[End of Session]
+
+    %% 1. Login Flow (Onboarding)
+    subgraph A_Login[User Onboarding & Access]
+        A --> B{User Enters Name};
+        B -- Invalid Name --> B;
+        B -- Valid Name --> C[Set User State & Login];
+    end
+
+    %% 2. Dashboard - The Main Hub
+    C --> D[Dashboard: View Progress, Points, Level, Achievements];
+
+    %% 3. Learning Path (Earning Points)
+    subgraph B_Learning[Learning & Gamification Loop]
+        D -- Select Topic from Grid --> E[View Topic Content (Read Stories & Tips)];
+        E --> F[Click "Complete" to Start Quiz];
+        F --> G[Take Interactive Quiz];
+        G --> H{Submit Quiz Answers};
+        H --> I{Check Results};
+        I -- Correct Answers --> J[Award Topic Base Points];
+        I -- Incorrect Answers --> K[Deduct -3 Points per Wrong Answer];
+        I -- 100% Correct --> L[Unlock Quiz Perfect Achievement (+15 pts) & Update Streak];
+        J --> M;
+        K --> M;
+        L --> M[Update Total Points & Calculate New Level];
+        M --> N[Check/Unlock New Progress/Category Achievements (e.g., First Topic)];
+        N --> O[View Results Summary & Return];
+        O --> D;
+    end
+
+    %% 4. Rewards Path (Spending Points)
+    subgraph C_Rewards[Rewards Redemption]
+        D -- View Rewards Store --> P[Browse Rewards & Check Point Costs];
+        P --> Q[Select Reward];
+        Q --> R{Sufficient Points Available?};
+        R -- Yes (Can Afford) --> S[Deduct Points from Total];
+        S --> T[Add Reward to Purchased Rewards List];
+        T --> P;
+        R -- No (Cannot Afford) --> U[Show "Insufficient Points" (Disabled Button)];
+        U --> P;
+        P -- Continue Learning --> D;
+    end
+
+    %% Styles for clarity
+    style A fill:#4CAF50, color:#FFFFFF
+    style Z fill:#4CAF50, color:#FFFFFF
+    style D fill:#ADD8E6, stroke-width:2px, stroke:#1E90FF
+
+    %% Flow continuation
+    D --> Z;
